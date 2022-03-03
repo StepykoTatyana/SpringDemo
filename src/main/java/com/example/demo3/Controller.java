@@ -1,8 +1,8 @@
 package com.example.demo3;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,5 +20,18 @@ public class Controller {
     @GetMapping("/colors")
     public Map<String, List<Colors>> getTasks() {
         return stringListMap;
+    }
+
+
+    private final ArrayList<String> users = new ArrayList<>();
+
+    @PostMapping("/users")
+    public void postUsers(@RequestParam String name) {
+        users.add(name);
+    }
+
+    @GetMapping("/users")
+    public ArrayList<String> getUsers() {
+        return users;
     }
 }
