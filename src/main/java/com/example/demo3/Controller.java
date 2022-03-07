@@ -1,10 +1,14 @@
 package com.example.demo3;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 @RestController
 public class Controller {
@@ -34,4 +38,35 @@ public class Controller {
     public ArrayList<String> getUsers() {
         return users;
     }
+
+    final ConcurrentMap<Long, String> items = new ConcurrentHashMap<>(Map.of(
+            535L, "Chair",
+            99534533L, "Table",
+            343455L, "Vase"
+    ));
+
+    @GetMapping("/items1/{id}")
+    ResponseEntity<?> getItem(@PathVariable long id) {
+        if (items.containsKey(id)) {
+            return new ResponseEntity<>(items.get(id), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/test/{status}")
+    ResponseEntity<?> getTest(@PathVariable int status) {
+        switch (status){
+            case 200:
+                return new ResponseEntity<>(HttpStatus.OK);
+            case 300:
+                return new ResponseEntity<>(HttpStatus.MULTIPLE_CHOICES);
+            case 400:
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            default:
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }

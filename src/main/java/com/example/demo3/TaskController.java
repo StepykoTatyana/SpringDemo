@@ -59,12 +59,6 @@ public class TaskController {
     }
 
 
-    Cinema cinemaList =
-            new Cinema(9, 9);
 
-    @GetMapping("/seats")
-    public Cinema getCinemaList() {
-        return cinemaList;
-    }
 
 }
